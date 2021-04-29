@@ -1,7 +1,11 @@
 # Exercise: ModulesAndFunctions-6
 defmodule Chop do
-    def guess(actual, lower..upper) do
+    def guess(actual, lower..upper) when actual in lower..upper do
         guess_helper(actual, lower..upper, div(upper - lower, 2) + lower)
+    end
+
+    def guess(actual, lower..upper) do
+        IO.puts "Guess must be in the range"
     end
 
     def guess_helper(actual, _lower.._upper, current) when actual == current do
