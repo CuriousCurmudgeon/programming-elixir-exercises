@@ -18,4 +18,10 @@ defmodule Math do
   defp _max([], current_max), do: current_max
   defp _max([ head | tail ], current_max) when head > current_max, do: _max(tail, head)
   defp _max([ head | tail ], current_max) when head <= current_max, do: _max(tail, current_max)
+
+  # Exercise: ListsAndRecursion-3
+  # The behavior here is slightly different than what the book shows. Not sure if this
+  # is because of me using a newer version of Elixir or not.
+  def caesar([], n), do: []
+  def caesar([ head | tail ], n), do: [ rem(head + n, ?z) | caesar(tail, n) ]
 end
