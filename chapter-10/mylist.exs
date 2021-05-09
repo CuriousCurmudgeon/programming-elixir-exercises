@@ -17,8 +17,8 @@ defmodule MyList do
   end
 
   # Only handles count >= 0
-  def split(list, count), do: _split(list, count, [], list)
-  defp _split(_, 0, split_out, remaining), do: { split_out, remaining }
-  defp _split(_, _, split_out, []), do: { split_out, [] }
-  defp _split([ head | tail ], count, split_out, remaining), do: _split(tail, count - 1, split_out ++ [head], tail)
+  def split(list, count), do: _split(count, [], list)
+  defp _split(0, split_out, remaining), do: { split_out, remaining }
+  defp _split(_, split_out, []), do: { split_out, [] }
+  defp _split(count, split_out, [ head | tail ]), do: _split(count - 1, split_out ++ [head], tail)
 end
