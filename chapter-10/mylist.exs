@@ -7,7 +7,7 @@ defmodule MyList do
   def each([], _), do: :ok
   def each([ head | tail ], func), do: func.(head) && each(tail, func)
 
-  def filter([], func), do: []
+  def filter([], _), do: []
   def filter([ head | tail ], func) do
     if func.(head) do
       [head | func.(tail)]
@@ -21,4 +21,8 @@ defmodule MyList do
   defp _split(0, split_out, remaining), do: { split_out, remaining }
   defp _split(_, split_out, []), do: { split_out, [] }
   defp _split(count, split_out, [ head | tail ]), do: _split(count - 1, split_out ++ [head], tail)
+
+  def take([], _), do: []
+  def take(_, 0), do: []
+  def take([ head | tail ], count), do: [ head | take(tail, count - 1)]
 end
