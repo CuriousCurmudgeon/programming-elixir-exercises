@@ -25,4 +25,9 @@ defmodule MyList do
   def take([], _), do: []
   def take(_, 0), do: []
   def take([ head | tail ], count), do: [ head | take(tail, count - 1)]
+
+  # Exercise: ListsAndRecursion-6
+  def flatten([]), do: []
+  def flatten([ head | tail ]) when is_list(head), do: flatten(head) ++ flatten(tail)
+  def flatten([ head | tail ]), do: [head] ++ flatten(tail)
 end
