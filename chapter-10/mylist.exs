@@ -30,4 +30,12 @@ defmodule MyList do
   def flatten([]), do: []
   def flatten([ head | tail ]) when is_list(head), do: flatten(head) ++ flatten(tail)
   def flatten([ head | tail ]), do: [head] ++ flatten(tail)
+
+  # Exercise: ListsAndRecursion-7
+  def span(from, to) when from > to, do: []
+  def span(from, to), do: [ from | span(from + 1, to)]
+
+  def primes(n) when n >= 2 do
+    for x <- Math.span(2,n), Enum.all?(Math.span(2,x-1), &(rem(x,&1)!=0)), do: x
+  end
 end

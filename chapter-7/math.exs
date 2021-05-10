@@ -26,6 +26,6 @@ defmodule Math do
   def caesar([ head | tail ], n), do: [ rem(head + n, ?z) | caesar(tail, n) ]
 
   # Exercise: ListsAndRecursion-4
-  def span(from, to) when from == to, do: [from]
-  def span(from, to) when from < to, do: [ from | span(from + 1, to)]
+  def span(from, to) when from > to, do: []
+  def span(from, to), do: [ from | span(from + 1, to)]
 end
