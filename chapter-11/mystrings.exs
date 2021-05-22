@@ -13,12 +13,20 @@ defmodule MyStrings do
     # Then, look for an operator
     # Then another space
     # Then another number.
+    def calculate(str) do
+        { first_digit, rest } = number(str)
+        _operate first_digit, rest
+    end
+    defp _operate(first_digit, [ ?+ | [ 32 | tail ] ] ), do: first_digit + number(tail) 
 
-    def number([ ?- | tail ]), do: _number_digits(tail, 0) * -1
-    def number([ ?+ | tail ]), do: _number_digits(tail, 0)
     def number(str),           do: _number_digits(str, 0)
 
     defp _number_digits([], value), do: value
+    defp _number_digits([ 32 | tail], value), do: { value, tail }
+    defp _number_digits([ digit | tail ], value)
+    when digit in '0123456789' do
+        _number_digits(tail, value * 10 + digit - ?0)
+    end
     defp _number_digits([ digit | tail ], value)
     when digit in '0123456789' do
         _number_digits(tail, value * 10 + digit - ?0)
