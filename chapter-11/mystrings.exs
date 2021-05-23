@@ -71,4 +71,40 @@ defmodule MyStrings do
         # logic feels good enough that I'm ok with it for now.
         capitalized_string <> ". "
     end
+
+    # Exercise: StringsAndBinaries-7
+    # Copy the function from mylist.exs to start.
+    def calculate_total(orders, tax_rates) do
+        for order <- orders do
+            net_amount = order[:net_amount]
+            ship_to = order[:ship_to]
+
+            tax_rate = Keyword.get(tax_rates, ship_to, 0)
+
+
+            order ++ [total_amount: net_amount + (net_amount * tax_rate)]
+        end
+    end
+
+    def calculate_total_from_file(path, tax_rates) do
+        calculate_total(_read_orders_file(path), tax_rates)
+    end
+
+    defp _read_orders_file(path) do
+        {:ok, file} = File.open(path, [:read])
+        # Skip the header line. A more flexible way to do this would read
+        # the header line and transform each into an atom. Then pass the list of
+        # atoms into _parse_line and create a keyword list from it.
+        IO.read(file, :line)
+        Enum.map IO.stream(file, :line), &_parse_line(&1)
+    end
+
+    defp _parse_line(line) do
+        [id, ship_to, net_amount] = String.split(line, ",")
+        [
+            id: String.to_integer(id),
+            ship_to: String.trim_leading(ship_to, ":") |> String.to_atom,
+            net_amount: String.trim(net_amount) |> String.to_float
+        ]
+    end
 end
