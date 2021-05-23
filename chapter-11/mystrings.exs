@@ -60,4 +60,15 @@ defmodule MyStrings do
         right_padded = String.pad_trailing(string, length - div(padding_length, 2))
         String.pad_leading(right_padded, length)
     end
+
+    # Exercise: StringsAndBinaries-6
+    def capitalize_sentences(string) when is_binary(string) do
+        capitalized_string =
+            String.split(string, ". ")
+            |> Enum.filter(&(String.length(&1) > 0))
+            |> Enum.map_join(". ", &(String.capitalize(&1)))
+        # This part feels a bit ugly to append to the end, but the preceding
+        # logic feels good enough that I'm ok with it for now.
+        capitalized_string <> ". "
+    end
 end
