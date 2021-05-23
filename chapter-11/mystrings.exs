@@ -8,16 +8,17 @@ defmodule MyStrings do
     def anagram?(word1, word2), do: Enum.sort(word1) == Enum.sort(word2)
 
     # Exercise: StringsAndBinaries-4
-    # This breaks down to number [+-*/] number.
-    # So, start by reusing number, except the terminal case is space.
-    # Then, look for an operator
-    # Then another space
-    # Then another number.
+    # This is much easier if you split the string, so 
+    # I implemented split for single-quoted strings.
     def calculate(str) do
-        { first_digit, rest } = number(str)
-        _operate first_digit, rest
+        [ first_number, operator, second_number ] = split str, ' '
+        _calculate number(first_number), operator, number(second_number)
     end
-    defp _operate(first_digit, [ ?+ | [ 32 | tail ] ] ), do: first_digit + number(tail) 
+    defp _calculate(first_number, '+', second_number), do: first_number + second_number
+    defp _calculate(first_number, '-', second_number), do: first_number - second_number
+    defp _calculate(first_number, '*', second_number), do: first_number * second_number
+    defp _calculate(first_number, '/', second_number), do: first_number / second_number
+
 
     def number(str),           do: _number_digits(str, 0)
 
@@ -34,4 +35,18 @@ defmodule MyStrings do
     defp _number_digits([ non_digit | _ ], _) do
         raise "Invalid digit '#{[non_digit]}'"
     end
+
+    # The separator must be a single-quoted string (charlist)
+    # with a length of 1
+    def split(list, [ separator | [] ]) when is_list(list) do
+        Enum.reverse _split(list, separator, [], [])
+    end
+
+    defp _split([], _, current, result), do: [ current | result ]
+    defp _split([ head | tail ], separator, current, result) when head == separator do
+        _split tail, separator, [], [ current | result ]
+    end
+    defp _split([ head | tail ], separator, current, result) do
+        _split tail, separator, current ++ [head], result
+    end 
 end
