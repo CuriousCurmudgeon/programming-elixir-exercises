@@ -8,7 +8,7 @@ defmodule MyStrings do
     def anagram?(word1, word2), do: Enum.sort(word1) == Enum.sort(word2)
 
     # Exercise: StringsAndBinaries-4
-    # This is much easier if you split the string, so 
+    # This is much easier if you split the string, so
     # I implemented split for single-quoted strings.
     def calculate(str) do
         [ first_number, operator, second_number ] = split str, ' '
@@ -48,5 +48,16 @@ defmodule MyStrings do
     end
     defp _split([ head | tail ], separator, current, result) do
         _split tail, separator, current ++ [head], result
-    end 
+    end
+
+    # Exercise: StringsAndBinaries-5
+    def center(strings) do
+        max_length = String.length(Enum.max_by strings, &(String.length &1))
+        Enum.each strings, &(IO.puts _pad_to(&1, max_length))
+    end
+    defp _pad_to(string, length) do
+        padding_length = length - String.length(string)
+        right_padded = String.pad_trailing(string, length - div(padding_length, 2))
+        String.pad_leading(right_padded, length)
+    end
 end
