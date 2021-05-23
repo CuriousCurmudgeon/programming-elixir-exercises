@@ -10,4 +10,12 @@ defmodule ControlFlow do
       [ false, false ] -> n
     end
   end
+
+  # Exercise: ControlFlow-3
+  def ok!(param) do
+    case param do
+      { :ok, data } -> data
+      _ -> raise "Param was not ok: #{inspect param}"
+    end
+  end
 end
